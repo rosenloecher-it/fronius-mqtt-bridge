@@ -1,0 +1,3 @@
+
+class FronmodException(Exception):
+    pass
