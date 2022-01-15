@@ -258,18 +258,6 @@ class FronmodProcessor:
             raise FronmodException('can only push ready values!')
         eflow.push_value(result.value)
 
-    # def get_results(self, delivery: FronmodDelivery) -> Dict[str, any]:
-    #     if delivery == FronmodDelivery.QUICK:
-    #         delivery_flag = MobuFlag.Q_QUICK
-    #     elif delivery == FronmodDelivery.MEDIUM:
-    #         delivery_flag = MobuFlag.Q_MEDIUM
-    #     elif delivery == FronmodDelivery.SLOW:
-    #         delivery_flag = MobuFlag.Q_SLOW
-    #     else:
-    #         raise ValueError("wrong FronmodDelivery type!")
-    #
-    #     return self.get_send_data()
-
     def get_send_data(self, flags):
         export_data = {}
         queue_dict = self._get_queue_dict(flags)

@@ -219,6 +219,17 @@ class FronmodConfig:
     @classmethod
     def list_items(cls, delivery: FronmodDelivery) -> str:
         item_set = cls.get_item_keys(delivery)
+
+        if delivery == FronmodDelivery.MEDIUM:
+            # special handling in FronmodProcessor
+            item_set.add(FronmodItem.EFLOW_BAT_IN)
+            item_set.add(FronmodItem.EFLOW_BAT_OUT)
+            item_set.add(FronmodItem.EFLOW_INV_AC_IN)
+            item_set.add(FronmodItem.EFLOW_INV_AC_OUT)
+            item_set.add(FronmodItem.EFLOW_INV_DC_IN)
+            item_set.add(FronmodItem.EFLOW_INV_DC_OUT)
+            item_set.add(FronmodItem.EFLOW_MOD_OUT)
+
         item_list = list(item_set)
         item_list.sort()
         return ", ".join(item_list)
