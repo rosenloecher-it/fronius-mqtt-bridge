@@ -266,7 +266,7 @@ class Runner:
         if not values.get(self.JSON_TIMESTAMP):
             values[self.JSON_TIMESTAMP] = TimeUtils.now(True).isoformat()
         if not values.get(self.JSON_STATUS):
-            values[self.JSON_STATUS] = "success"
+            values[self.JSON_STATUS] = "ok"
 
         for hide_item in self._hide_items:
             values.pop(hide_item, None)
