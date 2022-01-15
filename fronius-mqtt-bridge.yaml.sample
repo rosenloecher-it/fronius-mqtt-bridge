@@ -1,0 +1,29 @@
+logging:
+    # "-p" (== --print) makes logging obsolet (espcically if you running a systemd service)
+    # log_file:                 "./__test__/mqtt-logs.log"
+    log_level:                  "info"  # debug, info, warning, error
+
+modbus:
+    host:                       "<ip-address>""
+    port:                       <port>
+
+mqtt:
+    client_id:                  "fronius-mqtt-bridge"
+    host:                       "<server>"
+    port:                       1883
+    protocol:                   4  # 3==MQTTv31 (default), 4==MQTTv311, 5==default/MQTTv5,
+
+fetcher:
+    url:                        http://<fronius-station-url.or-ip>/livedata.htm
+    altitude:                   255  # in meters
+
+runner:
+    # delivery_time_quick:      8
+    # delivery_time_medium:     55
+    # delivery_time_slow:       300
+    # fetch_timeout:            10
+
+    message_last_will:          '{"status": "offline"}'
+    topic_quick:                "test/fronius/state-quick"
+    topic_medium:               "test/fronius/state-medium"
+    topic_slow:                 "test/fronius/state-slow"

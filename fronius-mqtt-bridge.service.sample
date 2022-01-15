@@ -1,0 +1,17 @@
+[Unit]
+Description=Fronius MQTT Bridge
+After=syslog.target network.target
+# consider to add "docker.service" too if your database or mqtt broker runs within a local docker container
+# Requires=docker.service
+# After=syslog.target network.target docker.service
+
+[Service]
+Type=simple
+ExecStart=/opt/fronius-mqtt-bridge/fronius-mqtt-bridge.sh --systemd-mode --config-file /opt/fronius-mqtt-bridge/fronius-mqtt-bridge.yaml
+Restart=always
+RestartSec=45
+WorkingDirectory=/opt/fronius-mqtt-bridge
+User=<your service user>
+
+[Install]
+WantedBy=multi-user.target
