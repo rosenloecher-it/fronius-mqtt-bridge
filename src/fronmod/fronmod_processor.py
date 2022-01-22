@@ -239,6 +239,7 @@ class FronmodProcessor:
                     value_target = 0
                 else:
                     value_target = 100.0 * self.value_inv_ac_power / self.value_inv_dc_power
+                    value_target = min(value_target, 100)
 
         except (TypeError, ValueError) as ex:
             if self._show_errors:
