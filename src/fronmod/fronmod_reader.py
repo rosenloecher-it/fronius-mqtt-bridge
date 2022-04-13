@@ -7,7 +7,7 @@ from .mobu import MobuBatch, MobuFlag, MobuItem, MobuResult
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 from pymodbus.payload import BinaryPayloadDecoder
 
-from ..time_utils import TimeUtils
+from src.utils.time_utils import TimeUtils
 
 _logger = logging.getLogger(__name__)
 

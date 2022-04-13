@@ -34,8 +34,7 @@ class TestFronmodProcessorReadReal(unittest.TestCase):
 
     def test_process_all(self):
         reader = FronmodReader(self.CONFIG, print_registers=True)
-        processor = FronmodProcessor()
-        processor.set_reader(reader)
+        processor = FronmodProcessor(reader)
 
         try:
             processor.open()

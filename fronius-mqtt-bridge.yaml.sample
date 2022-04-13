@@ -1,5 +1,5 @@
 logging:
-    # "-p" (== --print) makes logging obsolet (espcically if you running a systemd service)
+    # "-p" (== --print) makes logging obsolet (especially if you are running a systemd service)
     # log_file:                 "./__test__/mqtt-logs.log"
     log_level:                  "info"  # debug, info, warning, error
 
