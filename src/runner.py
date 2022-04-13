@@ -13,7 +13,7 @@ from src.fronmod.fronmod_processor import FronmodProcessor
 from src.fronmod.mobu import MobuFlag
 from src.mqtt_client import MqttClient
 from src.runner_config import RunnerConfKey
-from src.time_utils import TimeUtils
+from src.utils.time_utils import TimeUtils
 
 _logger = logging.getLogger(__name__)
 
@@ -140,6 +140,8 @@ class Runner:
         while True:
             if TimeUtils.now() >= self._quick_delivery.next_trigger:
                 self._run_next_tick()
+            else:
+                self._mqtt_client.ensure_connection()
 
             await asyncio.sleep(0.1)
 
@@ -182,8 +184,6 @@ class Runner:
             return await asyncio.wait_for(tick_func(), timeout)
         except asyncio.exceptions.TimeoutError:
             raise asyncio.exceptions.TimeoutError("timeout ({:.1f}s) - abort!".format(timeout))
-            # _logger.error("timeout (%.1fs) running tick task!", timeout)
-            raise
 
     async def _process_tick_0(self):
         self._fronmod_processor.process_inverter_model()  # must be first
