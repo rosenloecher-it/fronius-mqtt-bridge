@@ -117,7 +117,7 @@ class Runner:
         try:
             self._loop.run_until_complete(self._periodic_task)
         except asyncio.CancelledError:
-            _logger.debug("canceling...")
+            _logger.info("canceling...")
         finally:
             self.close()
 

@@ -79,7 +79,7 @@ def run_service(config_file, log_file, log_level, print_logs, systemd_mode):
             log_file, log_level, print_logs, systemd_mode
         )
 
-        _logger.debug("start")
+        _logger.info("start")
 
         runner_config = app_config.get_runner_config()
         mqtt_config = app_config.get_mqtt_config()
