@@ -1,8 +1,74 @@
 # fronius-mqtt-bridge
 
-TODO
+Reads out a Fronius Symo Hybrid Inverter via Modbus and publishes the data via MQTT.
+
+There are 3 channels with different timing behavior.
+
+### Topic "quick" - default 10 seconds
+
+```python
+{
+  "invAcPower": 1375.0,                     # current inverter AC power in W (positive values: outcoming from inverter)
+  "invDcPower": 1393.8000488,               # current inverter DC power in W (positive values: incoming into inverter)
+  "invEfficiency": 98.651166,               # inverter efficiency ("invDcPower" / "invAcPower") in %
+  "metAcPower": -1178.3900146,              # current meter AC power in W (your endpoint: importing: + / exporting: -)
+  "mpptBatPower": 0.0,                      # current battery power in W (negative values means charging)
+  "mpptModPower": 1393.8,                   # current modules power in W (module string)
+  "mpptModVoltage": 520.1,                  # current modules voltage in V (module string)
+  "selfConsumption": -0.19661,              # current own consumption in W ("invAcPower" - "metAcPower")
+  "status": "ok",                           # message status
+  "timestamp": "2022-05-03T17:28:40+02:00"  # message creating time
+}
+```
+
+### Topic "medium" - default 60 seconds
+```python
+{
+  "eflowInvAcOut": 24.1058917,              # exported AC energy by inverter in Wh # see "eflow!"
+  "eflowInvDcOut": 24.414075,               # imported DC energy by inverter: accumulated since last message in Wh
+  "eflowModOut": 24.4241958,                # modules energy accumulated since last message in Wh
+  "invAcEnergyTot": 23494744.0,             # absolute energy exported by inverter
+  "invStateCode": 4,                        # see docu: Fronius Operating Codes
+  "invStateText": "(4) NORMAL",             # check documentation
+  "metEnergyExpTot": 13908758.0,            # absolute energy exported by this inverter in Wh (your endpoint == meter)
+  "metEnergyImpTot": 3297517.0,             # absolute energy imported by this inverter in Wh (your endpoint == meter)
+  "metFrequency": 50.0,                     # electric grid frequency in Hz
+  "mpptBatStateCode": 4,                    # battery (string) status
+  "mpptBatStateText": "(4) NORMAL",
+  "mpptModStateCode": 4,                    # module string status
+  "mpptModStateText": "(4) NORMAL",
+  "status": "ok",                           # message status
+  "timestamp": "2022-05-03T17:28:30+02:00"  # message creating time
+}
+```
+**"eflow!"** means accumulated energy since the last message. So all value may be summed up over a specific time period. 
+This is not very accurate, as it just measures and accumulates every 10 seconds without regard of real variations (sampling theorem)!
+
+### Topic "slow" - default 300 seconds
+```python
+{
+  "batFillLevel": 99.0,                     # battery fill status in %
+  "batStateCode": 5,
+  "batStateText": "(5) FULL",
+  "status": "ok",                           # message status
+  "timestamp": "2022-05-03T17:27:30+02:00"  # message creating time
+}
+```
+
+## Disclaimer
+
+- Only tested with a "Fronius Symo Hybrid 4.0-3-S" (only 1 module string)
+- Therefore, only one module string is supported.
+- Check the Fronius inverter/Modbus docu for a basic understanding: [Local version](./docs/Fronius_Datamanager_Modbus_TCP-RTU_20200923.pdf)
+- Only Linux systems supported. (Supposed to run as Linux service.)
 
 ## Startup
+
+### Prepare your inverter
+
+Make sure Modbus is enabled. Use **"float"** as "Sun Spec Model Type". 
+
+![Modbus configuration](./docs/fronius-mobus-config.png)
 
 ### Prepare python environment
 ```bash
@@ -81,11 +147,13 @@ sudo systemctl enable fronius-mqtt-bridge.service
 
 ### MQTT broker related infos
 
+I use an 
+
 If no messages get logged check your broker.
 ```bash
 sudo apt-get install mosquitto-clients
 
-# preprare credentials
+# prepare credentials
 SERVER="<your server>"
 
 # start listener
