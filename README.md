@@ -70,7 +70,16 @@ Make sure Modbus is enabled. Use **"float"** as "Sun Spec Model Type".
 
 ![Modbus configuration](./docs/fronius-mobus-config.png)
 
+### Python prerequisites
+
+Python 3 ...
+
+```bash
+sudo apt-get install python3-dev python3-pip python3-venv python3-wheel -y
+```
+
 ### Prepare python environment
+
 ```bash
 cd /opt
 sudo mkdir fronius-mqtt-bridge
@@ -78,7 +87,7 @@ sudo chown <user>:<user> fronius-mqtt-bridge  # type in your user
 git clone https://github.com/rosenloecher-it/fronius-mqtt-bridge fronius-mqtt-bridge
 
 cd fronius-mqtt-bridge
-virtualenv -p /usr/bin/python3 venv
+python3 -m venv venv
 
 # activate venv
 source ./venv/bin/activate
@@ -88,6 +97,7 @@ python --version
 
 # install required packages
 pip install -r requirements.txt
+# or: pip install -r requirements-dev.txt
 ```
 
 ### Configuration
